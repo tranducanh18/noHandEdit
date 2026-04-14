@@ -1,0 +1,6 @@
+pyautogui
+opencv-python
+pillow
+requests
+pyperclip
+keyboard
