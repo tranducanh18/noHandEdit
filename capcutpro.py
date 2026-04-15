@@ -261,23 +261,17 @@ class App:
     # Logic: hộp thoại đang mở → click vào ô "File name" → xóa → paste → Enter
     # ─────────────────────────────────────────
     def _select_file_in_dialog(self, full_path: str):
-        """
-        Sau khi hộp thoại Open đã hiện, paste đường dẫn đầy đủ vào ô File name.
-        Cách đáng tin nhất: click thẳng vào ô File name (dưới cùng hộp thoại),
-        sau đó Ctrl+A → paste → Enter.
-        """
-        # Chờ hộp thoại xuất hiện (1.2s là đủ với máy bình thường)
+        # Chờ hộp thoại xuất hiện
         time.sleep(1.2)
 
         # Copy path vào clipboard
-        pyperclip.copy(full_path)
+        pyperclip.copy(full_path.replace("/", "\\"))
 
-        # Click vào ô "File name:" — dùng keyboard shortcut Windows chuẩn:
-        # Alt+D focus thanh địa chỉ, nhưng với Save/Open dialog thì dùng:
-        # Tab liên tục để đến ô File name KHÔNG ổn định.
-        # Cách chắc nhất: gõ thẳng vào — khi hộp thoại mới mở,
-        # Windows tự focus vào ô File name sẵn.
-        pyautogui.hotkey("ctrl", "a")   # chọn hết text cũ trong ô
+        # Focus chắc chắn vào ô File name bằng Alt+N (Windows Open dialog chuẩn)
+        pyautogui.hotkey("alt", "n")
+        time.sleep(0.3)
+
+        pyautogui.hotkey("ctrl", "a")   # chọn hết text cũ
         time.sleep(0.15)
         pyautogui.hotkey("ctrl", "v")   # paste đường dẫn
         time.sleep(0.3)
